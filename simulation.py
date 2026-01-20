@@ -21,8 +21,9 @@ p.setGravity(0,0,-9.8) # 1 G
 # Load the floor
 planeID = p.loadURDF("plane.urdf")
 
-# Load the box link
-p.loadSDF("box.sdf")
+# Load the world link
+p.loadSDF("world.sdf")
+# p.loadURDF("body.urdf")
 
 # Run simulation for n timesteps
 for i in range(10000):

@@ -8,34 +8,23 @@ Alexander Schaefer
 
 import pyrosim.pyrosim as pyrosim
 
-pyrosim.Start_SDF("box.sdf")
 
-length = 1
-width = 1
-height = 1
+def Create_World():
+    pyrosim.Start_SDF("world.sdf")
 
-x = 0
-y = 0
-z = height / 2
+    pyrosim.Send_Cube(name="Box", pos=[0,0,0.5], size=[1,1,1])
 
-scaling_factor = 0.9
-current_scale = 1
-
-for i in range(10):
-    # make a box
-    name = f"Box{i+1}"
-    pyrosim.Send_Cube(name=name, pos=[x,y,z], size=[length,width,height])
-    
-    # update the height of the next box
-    z = z + height/2 + height*scaling_factor/2
-
-    # update the size of the next box
-    length *= scaling_factor
-    width *= scaling_factor
-    height *= scaling_factor
+    pyrosim.End()
 
 
-    # update current_scale
-    current_scale *= scaling_factor
+def Create_Robot():
+    pyrosim.Start_URDF("body.urdf")
 
-pyrosim.End()
+    pyrosim.Send_Cube(name="Torso", pos=[0,0,0.5], size=[1,1,1])
+
+    pyrosim.End()
+
+
+
+Create_World()
+Create_Robot()
