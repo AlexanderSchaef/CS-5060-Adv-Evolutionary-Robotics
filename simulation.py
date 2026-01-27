@@ -23,7 +23,7 @@ planeID = p.loadURDF("plane.urdf")
 
 # Load the world link
 p.loadSDF("world.sdf")
-# p.loadURDF("body.urdf")
+p.loadURDF("body.urdf")
 
 # Run simulation for n timesteps
 for i in range(10000):
