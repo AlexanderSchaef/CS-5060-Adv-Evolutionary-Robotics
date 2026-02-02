@@ -10,7 +10,8 @@ import pybullet as p
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
 import time
-import numpy
+import numpy as np
+import random
 
 
 numSteps = 1000 # how many frames the program will iterate
@@ -32,8 +33,11 @@ robotId = p.loadURDF("body.urdf")
 
 # Set up for the sensors
 pyrosim.Prepare_To_Simulate(robotId)
-backLegSensorValues = numpy.zeros(numSteps)
-frontLegSensorValues = numpy.zeros(numSteps)
+backLegSensorValues = np.zeros(numSteps)
+frontLegSensorValues = np.zeros(numSteps)
+
+motor_positions = np.sin([10*i * np.pi / 180. for i in range(numSteps)])
+motor_i = 0
 
 # Run simulation for n timesteps
 for i in range(numSteps):
@@ -47,14 +51,30 @@ for i in range(numSteps):
     # print(backLegTouch)
     backLegSensorValues[i] = backLegTouch
     frontLegSensorValues[i] = frontLegTouch
+    # motors
+    pyrosim.Set_Motor_For_Joint(
+            bodyIndex = robotId,
+            jointName = b"Torso_BackLeg",
+            controlMode = p.POSITION_CONTROL,
+            targetPosition = motor_positions[i],
+            maxForce = 10.0)
+    pyrosim.Set_Motor_For_Joint(
+            bodyIndex = robotId,
+            jointName = b"Torso_FrontLeg",
+            controlMode = p.POSITION_CONTROL,
+            targetPosition = motor_positions[i],
+            maxForce = 10.0)
+
 
     time.sleep(0.01) 
 
 # save the values of backLegSensorValues
 with open('data/backLegSensorValues.npy', 'wb') as f:
-    numpy.save(f, backLegSensorValues)
+    np.save(f, backLegSensorValues)
 with open('data/frontLegSensorValues.npy', 'wb') as f:
-    numpy.save(f, frontLegSensorValues)
+    np.save(f, frontLegSensorValues)
+with open('data/motor.npy', 'wb') as f:
+    np.save(f, motor_positions)
 
 p.disconnect()
 
