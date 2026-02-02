@@ -8,7 +8,12 @@ Alexander Schaefer
 
 import pybullet as p
 import pybullet_data
+import pyrosim.pyrosim as pyrosim
 import time
+import numpy
+
+
+numSteps = 1000 # how many frames the program will iterate
 
 physicsClient = p.connect(p.GUI)
 
@@ -23,12 +28,34 @@ planeID = p.loadURDF("plane.urdf")
 
 # Load the world link
 p.loadSDF("world.sdf")
-p.loadURDF("body.urdf")
+robotId = p.loadURDF("body.urdf")
+
+# Set up for the sensors
+pyrosim.Prepare_To_Simulate(robotId)
+backLegSensorValues = numpy.zeros(numSteps)
+frontLegSensorValues = numpy.zeros(numSteps)
 
 # Run simulation for n timesteps
-for i in range(10000):
-    print(i)
+for i in range(numSteps):
+    # print(i)
+    
     p.stepSimulation()
+    
+    # sensors:
+    backLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+    frontLegTouch = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
+    # print(backLegTouch)
+    backLegSensorValues[i] = backLegTouch
+    frontLegSensorValues[i] = frontLegTouch
+
     time.sleep(0.01) 
 
+# save the values of backLegSensorValues
+with open('data/backLegSensorValues.npy', 'wb') as f:
+    numpy.save(f, backLegSensorValues)
+with open('data/frontLegSensorValues.npy', 'wb') as f:
+    numpy.save(f, frontLegSensorValues)
+
 p.disconnect()
+
+# print(backLegSensorValues)
