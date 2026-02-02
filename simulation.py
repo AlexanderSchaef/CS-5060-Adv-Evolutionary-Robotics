@@ -36,8 +36,17 @@ pyrosim.Prepare_To_Simulate(robotId)
 backLegSensorValues = np.zeros(numSteps)
 frontLegSensorValues = np.zeros(numSteps)
 
-motor_positions = np.sin([10*i * np.pi / 180. for i in range(numSteps)])
-motor_i = 0
+# motor sine waves
+
+amplitude_frontLeg = np.pi / 4
+frequency_frontLeg = 2 * 30
+phaseOffset_frontLeg = 1
+targetAngles_frontLeg = amplitude_frontLeg * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
+
+amplitude_backLeg = np.pi / 4
+frequency_backLeg = 2 * 30
+phaseOffset_backLeg = 0
+targetAngles_backLeg = amplitude_frontLeg * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 
 # Run simulation for n timesteps
 for i in range(numSteps):
@@ -56,14 +65,14 @@ for i in range(numSteps):
             bodyIndex = robotId,
             jointName = b"Torso_BackLeg",
             controlMode = p.POSITION_CONTROL,
-            targetPosition = motor_positions[i],
-            maxForce = 10.0)
+            targetPosition = targetAngles_frontLeg[i],
+            maxForce = 20.0)
     pyrosim.Set_Motor_For_Joint(
             bodyIndex = robotId,
             jointName = b"Torso_FrontLeg",
             controlMode = p.POSITION_CONTROL,
-            targetPosition = motor_positions[i],
-            maxForce = 10.0)
+            targetPosition = targetAngles_backLeg[i],
+            maxForce = 20.0)
 
 
     time.sleep(0.01) 
@@ -73,8 +82,10 @@ with open('data/backLegSensorValues.npy', 'wb') as f:
     np.save(f, backLegSensorValues)
 with open('data/frontLegSensorValues.npy', 'wb') as f:
     np.save(f, frontLegSensorValues)
-with open('data/motor.npy', 'wb') as f:
-    np.save(f, motor_positions)
+with open('data/motor_frontLeg.npy', 'wb') as f:
+    np.save(f, targetAngles_frontLeg)
+with open('data/motor_backLeg.npy', 'wb') as f:
+    np.save(f, targetAngles_backLeg)
 
 p.disconnect()
 

@@ -13,11 +13,14 @@ print(backLegSensorValues)
 frontLegSensorValues = np.load("data/frontLegSensorValues.npy")
 print(frontLegSensorValues)
 
-motorValues = np.load("data/motor.npy")
+frontLegMotorValues = np.load("data/motor_frontLeg.npy")
+backLegMotorValues = np.load("data/motor_backLeg.npy")
 
 # plot.plot(backLegSensorValues, linewidth=4, label="Back Leg")
 # plot.plot(frontLegSensorValues, label="Front Leg")
-plot.plot(motorValues, label="Motors") # both legs are symmetric in motor signals
+
+plot.plot(frontLegMotorValues, label="frontLegMotor", linewidth=4) # both legs are symmetric in motor signals
+plot.plot(backLegMotorValues, label="backLegMotor") # both legs are symmetric in motor signals
 
 
 plot.legend()
