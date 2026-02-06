@@ -52,6 +52,11 @@ class NEURON:
 
         return self.type == c.MOTOR_NEURON
 
+
+    def Update_Sensor_Neuron(self):
+        self.Set_Value(0)
+
+
     def Print(self):
 
         # self.Print_Name()

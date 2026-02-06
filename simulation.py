@@ -28,17 +28,17 @@ class SIMULATION:
     def Run(self):
         # Run simulation for n timesteps
         for t in range(c.numSteps):
-            print(t)
+            # print(t)
             
             p.stepSimulation()
 
-            # sensors
             self.robot.Sense(t)
 
-            # motors
+            self.robot.Think()
+
             self.robot.Act(t)
             
-            time.sleep(0.05) 
+            time.sleep(0.01) 
 
     def __del__(self):
         # self.robot.Save_Values()
