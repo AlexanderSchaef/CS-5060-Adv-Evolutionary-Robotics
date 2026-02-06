@@ -38,15 +38,15 @@ frontLegSensorValues = np.zeros(numSteps)
 
 # motor sine waves
 
-amplitude_frontLeg = np.pi / 4
-frequency_frontLeg = 2 * 30
-phaseOffset_frontLeg = 1
-targetAngles_frontLeg = amplitude_frontLeg * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
+amplitude_frontLeg = np.pi / 6
+frequency_frontLeg = 2 * 5
+phaseOffset_frontLeg = 0
+targetAngles_frontLeg = amplitude_frontLeg * -np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 
-amplitude_backLeg = np.pi / 4
-frequency_backLeg = 2 * 30
+amplitude_backLeg = np.pi / 6
+frequency_backLeg = 2 * 5
 phaseOffset_backLeg = 0
-targetAngles_backLeg = amplitude_frontLeg * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
+targetAngles_backLeg = amplitude_backLeg * np.sin([frequency_backLeg * i/numSteps + phaseOffset_backLeg for i in range(numSteps)])
 
 # Run simulation for n timesteps
 for i in range(numSteps):
@@ -63,13 +63,13 @@ for i in range(numSteps):
     # motors
     pyrosim.Set_Motor_For_Joint(
             bodyIndex = robotId,
-            jointName = b"Torso_BackLeg",
+            jointName = b"Torso_FrontLeg",
             controlMode = p.POSITION_CONTROL,
             targetPosition = targetAngles_frontLeg[i],
             maxForce = 20.0)
     pyrosim.Set_Motor_For_Joint(
             bodyIndex = robotId,
-            jointName = b"Torso_FrontLeg",
+            jointName = b"Torso_BackLeg",
             controlMode = p.POSITION_CONTROL,
             targetPosition = targetAngles_backLeg[i],
             maxForce = 20.0)
