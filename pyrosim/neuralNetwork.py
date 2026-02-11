@@ -1,5 +1,4 @@
 from pyrosim.neuron  import NEURON
-
 from pyrosim.synapse import SYNAPSE
 
 class NEURAL_NETWORK: 
@@ -18,6 +17,23 @@ class NEURAL_NETWORK:
 
         f.close()
 
+
+    def Is_Motor_Neuron(self, neuronName):
+        return self.neurons[neuronName].Is_Motor_Neuron()
+
+
+    def Get_Value_Of(self, neuronName):
+        return self.neurons[neuronName].Get_Value()
+
+
+    def Get_Neuron_Names(self):
+        return self.neurons.keys()
+
+
+    def Get_Motor_Neurons_Joint(self, neuronName):
+        return self.neurons[neuronName].Get_Joint_Name()
+
+
     def Print(self):
 
         self.Print_Sensor_Neuron_Values()
@@ -33,6 +49,8 @@ class NEURAL_NETWORK:
         for neuronName in self.neurons.keys():
             if self.neurons[neuronName].Is_Sensor_Neuron():
                 self.neurons[neuronName].Update_Sensor_Neuron()
+            else:
+                self.neurons[neuronName].Update_Hidden_Or_Motor_Neuron()
 
 
 

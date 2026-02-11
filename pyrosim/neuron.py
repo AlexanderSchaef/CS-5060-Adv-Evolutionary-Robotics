@@ -57,6 +57,10 @@ class NEURON:
         self.Set_Value(0)
 
 
+    def Update_Hidden_Or_Motor_Neuron(self):
+        self.Set_Value(0)
+
+
     def Print(self):
 
         # self.Print_Name()
