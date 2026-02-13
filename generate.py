@@ -23,7 +23,7 @@ def Create_Robot():
     y = 0
     z = 1.5
     Generate_Body(x,y,z)
-    print("Brain")
+    # print("Brain")
     Generate_Brain()
 
 

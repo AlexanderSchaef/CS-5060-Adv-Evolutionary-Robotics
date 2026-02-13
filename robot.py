@@ -12,10 +12,10 @@ from motor import MOTOR
 
 class ROBOT:
     def __init__(self):
-        self.robotId = p.loadURDF("body.urdf")
+        self.robot = p.loadURDF("body.urdf")
         self.nn = NEURAL_NETWORK("brain.nndf")
 
-        pyrosim.Prepare_To_Simulate(self.robotId)
+        pyrosim.Prepare_To_Simulate(self.robot)
 
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
@@ -35,7 +35,7 @@ class ROBOT:
 
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
+        # self.nn.Print()
 
 
     def Prepare_To_Act(self):
@@ -50,15 +50,23 @@ class ROBOT:
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName).encode('UTF-8')
                 desiredAngle = self.nn.Get_Value_Of(neuronName)
 
-                self.motors[jointName].Set_Value(self.robotId, desiredAngle)
+                self.motors[jointName].Set_Value(self.robot, desiredAngle)
 
-                print(f"MOTOR {neuronName}")
-                print(f"JOINT: {jointName.decode('UTF-8')}")
-                print(f"Desired Angle: {desiredAngle}")
-        # for m in self.motors.values():
-        #     print("m: ", m)
-        #     m.Set_Value(self.robotId, t)
+                # print(f"MOTOR {neuronName}")
+                # print(f"JOINT: {jointName.decode('UTF-8')}")
+                # print(f"Desired Angle: {desiredAngle}")
     
+
+    def Get_Fitness(self):
+        stateOfLinkZero = p.getLinkState(self.robot,0)
+        # print(stateOfLinkZero)
+        positionOfLinkZero = stateOfLinkZero[0]
+        # print(positionOfLinkZero)
+        xCoordinateOfLinkZero = positionOfLinkZero[0] 
+        # print(xCoordinateOfLinkZero)
+        with open("fitness.txt", "w") as file:
+            file.write(str(xCoordinateOfLinkZero))
+
 
     def Save_Values(self):
         # save sensor values
