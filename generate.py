@@ -7,6 +7,7 @@ Alexander Schaefer
 """
 
 import pyrosim.pyrosim as pyrosim
+import random
 
 
 def Create_World():
@@ -49,19 +50,21 @@ def Generate_Body(x,y,z):
 def Generate_Brain():
 
     pyrosim.Start_NeuralNetwork("brain.nndf")
+    sensorNames = ['Torso', 'FrontLeg', 'BackLeg']
+    motorNames = ['Torso_BackLeg', 'Torso_FrontLeg']
 
-    pyrosim.Send_Sensor_Neuron(name = 0, linkName = "Torso")
-    pyrosim.Send_Sensor_Neuron(name = 1, linkName = "FrontLeg")
-    pyrosim.Send_Sensor_Neuron(name = 2, linkName = "BackLeg")
+    pyrosim.Send_Sensor_Neuron(name = 0, linkName = sensorNames[0])
+    pyrosim.Send_Sensor_Neuron(name = 1, linkName = sensorNames[1])
+    pyrosim.Send_Sensor_Neuron(name = 2, linkName = sensorNames[2])
 
-    pyrosim.Send_Motor_Neuron(name = 3, jointName = "Torso_BackLeg")
-    pyrosim.Send_Motor_Neuron(name = 4, jointName = "Torso_FrontLeg")
+    pyrosim.Send_Motor_Neuron(name = 3, jointName = motorNames[0])
+    pyrosim.Send_Motor_Neuron(name = 4, jointName = motorNames[1])
 
-    pyrosim.Send_Synapse(sourceNeuronName = 1, targetNeuronName = 3, weight = 0.4)
-    pyrosim.Send_Synapse(sourceNeuronName = 2, targetNeuronName = 3, weight = 0)
-
-    pyrosim.Send_Synapse(sourceNeuronName = 1, targetNeuronName = 4, weight = 0)
-    pyrosim.Send_Synapse(sourceNeuronName = 2, targetNeuronName = 4, weight = 0.4)
+    num_neurons = len(sensorNames) + len(motorNames)
+    for i in range(num_neurons):
+        for j in range(num_neurons):
+            if i != j:
+                pyrosim.Send_Synapse(sourceNeuronName = i, targetNeuronName = j, weight = random.uniform(-1,1))
 
 
     pyrosim.End()
