@@ -13,12 +13,13 @@ class SOLUTION:
         self.weights = z * 2 - 1
 
     
-    def Evaluate(self):
+    def Evaluate(self, DirectOrGUI):
         self.Create_World()
 
         self.Create_Robot()
+        
+        os.system(f"python3 simulate.py {DirectOrGUI}")
 
-        os.system("python3 simulate.py")
         fitnessFile = "fitness.txt"
         with open("fitness.txt", "r") as file:
             self.fitness = float(file.read().strip())

@@ -11,10 +11,12 @@ import constants as c
 
 
 class SIMULATION:
-    def __init__(self):
+    def __init__(self, directOrGUI):
         # TOGGLE FOR VISIBLE WINDOW
-        # self.physicsClient = p.connect(p.GUI)
-        self.physicsClient = p.connect(p.DIRECT)
+        if directOrGUI == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
 
 
         # Set the path for built in objects, like plane
