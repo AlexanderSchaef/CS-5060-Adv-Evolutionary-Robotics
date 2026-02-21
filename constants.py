@@ -25,3 +25,4 @@ targetAngles_frontLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + ph
 targetAngles_backLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 
 numberOfGenerations = 10
+populationSize = 10

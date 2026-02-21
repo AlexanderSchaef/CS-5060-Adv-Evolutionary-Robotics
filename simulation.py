@@ -11,7 +11,8 @@ import constants as c
 
 
 class SIMULATION:
-    def __init__(self, directOrGUI):
+    def __init__(self, directOrGUI, simulationID):
+        self.directOrGUI = directOrGUI
         # TOGGLE FOR VISIBLE WINDOW
         if directOrGUI == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)
@@ -26,7 +27,7 @@ class SIMULATION:
         p.setGravity(0,0,-9.8) # 1 G
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(simulationID)
 
     
 
@@ -42,13 +43,13 @@ class SIMULATION:
             self.robot.Think()
 
             self.robot.Act(t)
+
+            if self.directOrGUI == "GUI":
+                time.sleep(0.01)
             
-            time.sleep(0.01) 
 
-
-
-    def Get_Fitness(self):
-        self.robot.Get_Fitness()
+    def Get_Fitness(self, solutionID):
+        self.robot.Get_Fitness(solutionID)
 
 
     def __del__(self):

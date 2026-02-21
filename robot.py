@@ -1,5 +1,6 @@
 import numpy as np
 import pybullet as p
+import os
 
 
 import pyrosim.pyrosim as pyrosim
@@ -11,14 +12,16 @@ from motor import MOTOR
 
 
 class ROBOT:
-    def __init__(self):
+    def __init__(self, simulationID):
         self.robot = p.loadURDF("body.urdf")
-        self.nn = NEURAL_NETWORK("brain.nndf")
+        self.nn = NEURAL_NETWORK(f"brain{simulationID}.nndf")
 
         pyrosim.Prepare_To_Simulate(self.robot)
 
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
+
+        os.system(f"del brain{simulationID}.nndf")
 
 
     def Prepare_To_Sense(self):
@@ -57,15 +60,16 @@ class ROBOT:
                 # print(f"Desired Angle: {desiredAngle}")
     
 
-    def Get_Fitness(self):
+    def Get_Fitness(self, solutionID):
         stateOfLinkZero = p.getLinkState(self.robot,0)
         # print(stateOfLinkZero)
         positionOfLinkZero = stateOfLinkZero[0]
         # print(positionOfLinkZero)
         xCoordinateOfLinkZero = positionOfLinkZero[0] 
         # print(xCoordinateOfLinkZero)
-        with open("fitness.txt", "w") as file:
+        with open(f"tmp{str(solutionID)}.txt", "w") as file:
             file.write(str(xCoordinateOfLinkZero))
+        os.system(f"rename tmp{str(solutionID)}.txt fitness{solutionID}.txt")
 
 
     def Save_Values(self):

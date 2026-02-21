@@ -2,36 +2,56 @@ import numpy as np
 import random
 import pyrosim.pyrosim as pyrosim
 import os
+import time
+import thread
+from thread import Thread, ConcurrentProcessing
 
 class SOLUTION:
-    def __init__(self):
-                
+    def __init__(self, nextAvailableID):
+        self.myID = nextAvailableID
         z = np.zeros((3,2))
         for i in range(3):
             for j in range(2):
                 z[i][j] = random.random()
         self.weights = z * 2 - 1
 
+
+    def Set_ID(self, nextAvailableID):
+        self.myID = nextAvailableID
+
     
-    def Evaluate(self, DirectOrGUI):
+    def Evaluate(self, directOrGUI):
+        self.Start_Simulation(directOrGUI)
+        self.Wait_For_Simulation_To_End(self)
+
+
+    def Start_Simulation(self, directOrGUI):
         self.Create_World()
-
         self.Create_Robot()
-        
-        os.system(f"python3 simulate.py {DirectOrGUI}")
 
-        fitnessFile = "fitness.txt"
-        with open("fitness.txt", "r") as file:
+        print(f"Starting Simulation for robot {self.myID} ")
+        os.system(f"python3 simulate.py {directOrGUI} {str(self.myID)} --disable-gil &")
+
+
+    def Wait_For_Simulation_To_End(self):
+        fitnessFile = f"fitness{self.myID}.txt"
+        while not os.path.exists(fitnessFile):
+            time.sleep(0.01)
+        with open(fitnessFile, "r") as file:
             self.fitness = float(file.read().strip())
-
+        os.system(f"del {fitnessFile}")
 
 
     def Create_World(self):
-        pyrosim.Start_SDF("world.sdf")
+        filename = "world.sdf"
+        pyrosim.Start_SDF(filename)
 
         pyrosim.Send_Cube(name="Box", pos=[2,2,0.5], size=[1,1,1])
 
         pyrosim.End()
+        while not os.path.exists("world.sdf"):
+            time.sleep(0.01)
+
 
 
     def Create_Robot(self):
@@ -43,8 +63,8 @@ class SOLUTION:
 
 
     def Generate_Body(self, x,y,z):
-
-        pyrosim.Start_URDF("body.urdf")
+        filename = "body.urdf"
+        pyrosim.Start_URDF(filename)
 
         pyrosim.Send_Cube(name="Torso", pos=[x,y,z], size=[1,1,1])
         
@@ -59,11 +79,15 @@ class SOLUTION:
         pyrosim.Send_Cube(name="FrontLeg", pos=[0.5,0,-0.5], size=[1,1,1])
 
         pyrosim.End()
+        while not os.path.exists("body.urdf"):
+            time.sleep(0.01)
+
 
 
     def Generate_Brain(self):
-
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        print(f"Generating brain{self.myID}")
+        filename = f"brain{self.myID}.nndf"
+        pyrosim.Start_NeuralNetwork(filename)
 
         sensorNames = ['Torso', 'FrontLeg', 'BackLeg']
         motorNames = ['Torso_BackLeg', 'Torso_FrontLeg']
@@ -82,6 +106,9 @@ class SOLUTION:
                 pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn+3, weight = self.weights[currentRow][currentColumn])
 
         pyrosim.End()
+        while not os.path.exists(f"brain{self.myID}.nndf"):
+            print(f"Waiting on brain{self.myID}")
+            time.sleep(0.01)
 
 
     def Mutate(self):
