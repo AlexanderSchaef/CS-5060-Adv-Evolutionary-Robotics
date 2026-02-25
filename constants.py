@@ -26,3 +26,12 @@ targetAngles_backLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + pha
 
 numberOfGenerations = 10
 populationSize = 10
+
+
+sensorNames = ['BackLowerLeg', 'FrontLowerLeg', 'LeftLowerLeg', 'RightLowerLeg']
+motorNames = ['Torso_BackLeg', 'Torso_FrontLeg', 'Torso_LeftLeg', 'Torso_RightLeg', 'BackLeg_BackLowerLeg', 'FrontLeg_FrontLowerLeg', 'LeftLeg_LeftLowerLeg', 'RightLeg_RightLowerLeg']
+
+numSensorNeurons = 4
+numMotorNeurons = 8
+
+motorJointRange = 0.2
