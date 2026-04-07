@@ -1,7 +1,6 @@
 """
 CS 5060 Adv Evolutionary Robotics
-Assignment 2
-01/16/26
+Spiderbot Final Project
 
 Alexander Schaefer
 """

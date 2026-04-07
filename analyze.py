@@ -1,8 +1,9 @@
 """
 CS 5060 Adv Evolutionary Robotics
-01/27/26
+Spiderbot Final Project
 
-Alexander Schaefer"""
+Alexander Schaefer
+"""
 
 import numpy as np
 import matplotlib.pyplot as plot

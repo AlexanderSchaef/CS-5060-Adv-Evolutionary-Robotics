@@ -1,12 +1,14 @@
 """
 CS 5060 Adv Evolutionary Robotics
-Assignment 9
+Spiderbot Final Project
 
 Alexander Schaefer
 """
 
 import os
 from simulation import SIMULATION
+
+# hill climber and PHC code retained from Assignment 10
 from hillclimber import HILL_CLIMBER
 from parallelHillClimber import PARALLEL_HILL_CLIMBER
 
