@@ -3,7 +3,7 @@
 To create a spider-like robot, capable of moving 'fluently' in arbitrary terrain, with a brain capable of understanding it's environment, towards an arbitrary objective.
 
 ## Subcomponents:
-- The spiderbot
+- The Spiderbot
     - composed of at minimum 8 legs and a body.
         - Each leg will have 2 leg sections, upper and lower, and will come equipped with sensors, joints, and motors.
     - Body sensors:
@@ -27,6 +27,8 @@ To create a spider-like robot, capable of moving 'fluently' in arbitrary terrain
 ## Milestone 1:
 Deadline: 04/07/2026
 
+1st milestone: I will create the Spiderbot in simulation, and prove that it is capable of locomotion.
+
 ### Goals:
 - [ ] Spiderbot body is assembled
     - [x] Body segment
@@ -38,6 +40,21 @@ Deadline: 04/07/2026
     - [ ] Robot must successfully for this demonstration evolve movement to the right without falling over (the precise "negative reward if body touching the ground" implementation will be for a later milestone)
 
 Proof of goals:
-- [] Record a video of the spiderbot before and after evolving locomotion in a direction.
+- [] Record a video of the Spiderbot before and after evolving locomotion in a direction.
 
 Hard-coded body is OK, because the robot will not be evolving its body. Hard-coded synapse connectivity also OK, will presume fully connected layers. (Only sensor and motor needed for this demonstration, hidden neurons will be for the following milestone)
+
+## Milestone 2:
+Deadline: 04/14/2026
+
+2nd milestone: I will improve the Spiderbot's brain to include hidden neurons, and show proof that hidden neurons are included in the neural net, and that the neuron values and synapse weights are updated across evolution steps.
+
+## Milestone 3:
+Deadline: 04/21/2026
+
+3rd milestone: I will create a randomly generated environment for the Spiderbot to inhabit. I will prove that the Spiderbot is capable of locomotion without it's body touching the ground in this environment and, if possible, navigation. Locomotion being defined as successful movement to the right in a straight-ish line, navigation being defined as choosing a path around obstacles that improves navigation time.
+
+## Milestone 4:
+Deadline: 04/28/2026
+
+4th milestone: I will create a `goal post`, either a random coordinate or a cube in the environment, that the Spiderbot will attempt to move towards rather than a hard-coded direction. I will show proof that the Spiderbot moves towards this `goal post` regardless of where it is positioned. This will be demonstrated either through repeated trials or, if possible, through moving the `goal post` and verifying that the Spiderbot changes to move towards it's new position.
