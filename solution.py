@@ -67,39 +67,32 @@ class SOLUTION:
         filename = "body.urdf"
         pyrosim.Start_URDF(filename)
 
-        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 1, 1])
+        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 2, 1])
 
-        # Back Legs
-        pyrosim.Send_Cube(name="BackLeg", pos=[0, -0.5, 0], size=[0.2, 1, 0.2])
-        pyrosim.Send_Joint(name="Torso_BackLeg", parent="Torso", child="BackLeg", position=[0, -0.5, 1],
-                           type="revolute", jointAxis="1 0 0")
-        pyrosim.Send_Cube(name="BackLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-        pyrosim.Send_Joint(name="BackLeg_BackLowerLeg", parent="BackLeg", child="BackLowerLeg", position=[0, -1, 0],
-                           type="revolute", jointAxis="1 0 0")
 
-        # Front Legs
-        pyrosim.Send_Cube(name="FrontLeg", pos=[0, 0.5, 0], size=[0.2, 1, 0.2])
-        pyrosim.Send_Joint(name="Torso_FrontLeg", parent="Torso", child="FrontLeg", position=[0, 0.5, 1],
-                           type="revolute", jointAxis="1 0 0")
-        pyrosim.Send_Cube(name="FrontLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-        pyrosim.Send_Joint(name="FrontLeg_FrontLowerLeg", parent="FrontLeg", child="FrontLowerLeg",
-                           position=[0, 1, 0], type="revolute", jointAxis="1 0 0")
+        spacing = 1
+        for i in range(1, 5):
+            # Left Legs
+            pyrosim.Send_Cube(name=f"LeftLeg{i}", pos=[-0.5, spacing, 0], size=[1, 0.2, 0.2])
+            pyrosim.Send_Joint(name=f"Torso_LeftLeg{i}", parent="Torso", child=f"LeftLeg{i}", position=[-0.5, 0, 1],
+                            type="revolute", jointAxis="0 1 0")
+            pyrosim.Send_Cube(name=f"LeftLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
+            pyrosim.Send_Joint(name=f"LeftLeg_LeftLowerLeg{i}", parent=f"LeftLeg{i}", child=f"LeftLowerLeg{i}", position=[-1, 0, 0],
+                            type="revolute", jointAxis="0 1 0")
 
-        # Left Legs
-        pyrosim.Send_Cube(name="LeftLeg", pos=[-0.5, 0, 0], size=[1, 0.2, 0.2])
-        pyrosim.Send_Joint(name="Torso_LeftLeg", parent="Torso", child="LeftLeg", position=[-0.5, 0, 1],
-                           type="revolute", jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="LeftLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-        pyrosim.Send_Joint(name="LeftLeg_LeftLowerLeg", parent="LeftLeg", child="LeftLowerLeg", position=[-1, 0, 0],
-                           type="revolute", jointAxis="0 1 0")
-
-        # Right Legs
-        pyrosim.Send_Cube(name="RightLeg", pos=[0.5, 0, 0], size=[1, 0.2, 0.2])
-        pyrosim.Send_Joint(name="Torso_RightLeg", parent="Torso", child="RightLeg", position=[0.5, 0, 1],
-                           type="revolute", jointAxis="0 1 0")
-        pyrosim.Send_Cube(name="RightLowerLeg", pos=[0, 0, -0.5], size=[0.2, 0.2, 1])
-        pyrosim.Send_Joint(name="RightLeg_RightLowerLeg", parent="RightLeg", child="RightLowerLeg", position=[1, 0, 0],
-                           type="revolute", jointAxis="0 1 0")
+            # Right Legs
+            pyrosim.Send_Cube(name=f"RightLeg{i}", pos=[0.5, spacing, 0], size=[1, 0.2, 0.2])
+            pyrosim.Send_Joint(name=f"Torso_RightLeg{i}", parent="Torso", child=f"RightLeg{i}", position=[0.5, 0, 1],
+                            type="revolute", jointAxis="0 1 0")
+            pyrosim.Send_Cube(name=f"RightLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
+            pyrosim.Send_Joint(name=f"RightLeg_RightLowerLeg{i}", parent=f"RightLeg{i}", child=f"RightLowerLeg{i}", position=[1, 0, 0],
+                            type="revolute", jointAxis="0 1 0")
+            
+            # to deal with the 0.01
+            if i == 4:
+                spacing -= 0.66
+            else:
+                spacing -= 0.67
 
         pyrosim.End()
         while not os.path.exists("body.urdf"):
