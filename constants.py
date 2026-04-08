@@ -24,8 +24,8 @@ phaseOffset_backLeg = 0
 targetAngles_frontLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 targetAngles_backLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 
-numberOfGenerations = 15
-populationSize = 20
+numberOfGenerations = 20
+populationSize = 8
 
 
 sensorNames = []

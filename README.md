@@ -44,7 +44,7 @@ Proof of goals:
 
 Hard-coded body is OK, because the robot will not be evolving its body. Hard-coded synapse connectivity also OK, will presume fully connected layers. (Only sensor and motor needed for this demonstration, hidden neurons will be for the following milestone)
 
-Currently, the bottleneck in Spiderbot evolution is that it cannot move it's legs forward and backwards, how a spider would actually move.
+Currently, the bottleneck in Spiderbot evolution is that it cannot move its legs forward and backwards, how a spider would actually move.
 
 ## Milestone 2:
 Deadline: 04/14/2026

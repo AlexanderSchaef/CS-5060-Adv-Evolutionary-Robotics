@@ -75,25 +75,25 @@ class SOLUTION:
             # Left Legs
             pyrosim.Send_Cube(name=f"LeftLeg{i}", pos=[-0.5, spacing, 0], size=[1, 0.2, 0.2])
             pyrosim.Send_Joint(name=f"Torso_LeftLeg{i}", parent="Torso", child=f"LeftLeg{i}", position=[-0.5, 0, 1],
-                            type="revolute", jointAxis="0 1 0")
+                            type="revolute", jointAxis="1 1 0 ")
             pyrosim.Send_Cube(name=f"LeftLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
             pyrosim.Send_Joint(name=f"LeftLeg_LeftLowerLeg{i}", parent=f"LeftLeg{i}", child=f"LeftLowerLeg{i}", position=[-1, 0, 0],
-                            type="revolute", jointAxis="0 1 0")
+                            type="revolute", jointAxis="1 1 0 ")
 
             # Right Legs
             pyrosim.Send_Cube(name=f"RightLeg{i}", pos=[0.5, spacing, 0], size=[1, 0.2, 0.2])
             pyrosim.Send_Joint(name=f"Torso_RightLeg{i}", parent="Torso", child=f"RightLeg{i}", position=[0.5, 0, 1],
-                            type="revolute", jointAxis="0 1 0")
+                            type="revolute", jointAxis="1 1 0 ")
             pyrosim.Send_Cube(name=f"RightLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
             pyrosim.Send_Joint(name=f"RightLeg_RightLowerLeg{i}", parent=f"RightLeg{i}", child=f"RightLowerLeg{i}", position=[1, 0, 0],
-                            type="revolute", jointAxis="0 1 0")
+                            type="revolute", jointAxis="1 1 0 ")
             
             # to deal with the 0.01
             if i == 4:
                 spacing -= 0.66
             else:
                 spacing -= 0.67
-
+            
         pyrosim.End()
         while not os.path.exists("body.urdf"):
             time.sleep(0.01)
