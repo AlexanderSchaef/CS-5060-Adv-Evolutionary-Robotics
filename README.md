@@ -52,11 +52,11 @@ Deadline: 04/14/2026
 2nd milestone: I will improve the Spiderbot's brain to include hidden neurons, and show proof that hidden neurons are included in the neural net, and that the neuron values and synapse weights are updated across evolution steps.
 
 ### Goals:
-- [ ] Implement hidden neurons into the neural net
-    - [ ] Dynamic sizing of hidden neurons
-    - [ ] Connectivity to Sensor neurons
-    - [ ] Connectivity to Motor neurons
-    - [ ] Implementation of at least one layer of hidden neurons
+- [x] Implement hidden neurons into the neural net
+    - [x] Dynamic sizing of hidden neurons (as many as needed)
+    - [x] Connectivity to Sensor neurons
+    - [x] Connectivity to Motor neurons
+    - [x] Implementation of at least one layer of hidden neurons
     - [ ] Optional: Support for multiple layers of hidden neurons
     - [ ] Optional: Support for 'memory' synapse connections, synapses that start and end on the same layer
 
@@ -65,7 +65,18 @@ Deadline: 04/21/2026
 
 3rd milestone: I will create a randomly generated environment for the Spiderbot to inhabit. I will prove that the Spiderbot is capable of locomotion without it's body touching the ground in this environment and, if possible, navigation. Locomotion being defined as successful movement to the right in a straight-ish line, navigation being defined as choosing a path around obstacles that improves navigation time.
 
+- [ ] Random environment generation
+    - [ ] some randomly generated environmental terrain
+    - [ ] traversable by the spiderbot (spiderbot still needs some work to get moving well)
+    - [ ] Optional: spiderbot body and sensor  modification to allow for better traversal
+
+
 ## Milestone 4:
 Deadline: 04/28/2026
 
 4th milestone: I will create a `goal post`, either a random coordinate or a cube in the environment, that the Spiderbot will attempt to move towards rather than a hard-coded direction. I will show proof that the Spiderbot moves towards this `goal post` regardless of where it is positioned. This will be demonstrated either through repeated trials or, if possible, through moving the `goal post` and verifying that the Spiderbot changes to move towards it's new position.
+
+- [ ] Random goal
+    - [ ] Minimum implementation: goal coordinates are fed in as sensor input and given to the robot
+    - [ ] If there is time, a goal object
+    - [ ] If there is time, a goal object that resets to a new position in the world after the robot approaches it

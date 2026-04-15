@@ -24,8 +24,8 @@ phaseOffset_backLeg = 0
 targetAngles_frontLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 targetAngles_backLeg = amplitude * np.sin([frequency_frontLeg * i/numSteps + phaseOffset_frontLeg for i in range(numSteps)])
 
-numberOfGenerations = 20
-populationSize = 8
+numberOfGenerations = 5
+populationSize = 4
 
 
 sensorNames = []
@@ -44,5 +44,6 @@ for i in range(1, 5):
 
 numSensorNeurons = len(sensorNames)
 numMotorNeurons = len(motorNames)
+numHiddenNeurons = 8
 
 motorJointRange = 0.25

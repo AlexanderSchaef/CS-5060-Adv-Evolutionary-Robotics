@@ -10,11 +10,9 @@ import constants as c
 class SOLUTION:
     def __init__(self, nextAvailableID):
         self.myID = nextAvailableID
-        z = np.zeros((c.numSensorNeurons,c.numMotorNeurons))
-        for i in range(c.numSensorNeurons):
-            for j in range(c.numMotorNeurons):
-                z[i][j] = random.random()
-        self.weights = z * 2 - 1
+
+        self.sensorToHiddenWeights = np.random.rand(c.numSensorNeurons, c.numHiddenNeurons) * 2 -1
+        self.hiddenToMotorWeights = np.random.rand(c.numHiddenNeurons, c.numMotorNeurons) * 2 - 1
 
 
     def Set_ID(self, nextAvailableID):
@@ -75,18 +73,18 @@ class SOLUTION:
             # Left Legs
             pyrosim.Send_Cube(name=f"LeftLeg{i}", pos=[-0.5, spacing, 0], size=[1, 0.2, 0.2])
             pyrosim.Send_Joint(name=f"Torso_LeftLeg{i}", parent="Torso", child=f"LeftLeg{i}", position=[-0.5, 0, 1],
-                            type="revolute", jointAxis="1 1 0 ")
+                            type="revolute", jointAxis="0 1 0 ")
             pyrosim.Send_Cube(name=f"LeftLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
             pyrosim.Send_Joint(name=f"LeftLeg_LeftLowerLeg{i}", parent=f"LeftLeg{i}", child=f"LeftLowerLeg{i}", position=[-1, 0, 0],
-                            type="revolute", jointAxis="1 1 0 ")
+                            type="revolute", jointAxis="0 1 0 ")
 
             # Right Legs
             pyrosim.Send_Cube(name=f"RightLeg{i}", pos=[0.5, spacing, 0], size=[1, 0.2, 0.2])
             pyrosim.Send_Joint(name=f"Torso_RightLeg{i}", parent="Torso", child=f"RightLeg{i}", position=[0.5, 0, 1],
-                            type="revolute", jointAxis="1 1 0 ")
+                            type="revolute", jointAxis="0 1 0 ")
             pyrosim.Send_Cube(name=f"RightLowerLeg{i}", pos=[0, spacing, -0.5], size=[0.2, 0.2, 1])
             pyrosim.Send_Joint(name=f"RightLeg_RightLowerLeg{i}", parent=f"RightLeg{i}", child=f"RightLowerLeg{i}", position=[1, 0, 0],
-                            type="revolute", jointAxis="1 1 0 ")
+                            type="revolute", jointAxis="0 1 0 ")
             
             # to deal with the 0.01
             if i == 4:
@@ -105,24 +103,38 @@ class SOLUTION:
         filename = f"brain{self.myID}.nndf"
         pyrosim.Start_NeuralNetwork(filename)
 
-
         name = 0
-        for i in range(name, c.numSensorNeurons):
+        for i in range(c.numSensorNeurons):
             pyrosim.Send_Sensor_Neuron(name = name, linkName = c.sensorNames[name])
             name += 1
-        for i in range(name, c.numMotorNeurons + c.numSensorNeurons):
-            pyrosim.Send_Motor_Neuron(name = name, jointName = c.motorNames[name - c.numSensorNeurons])
+
+        for i in range(c.numHiddenNeurons):
+            pyrosim.Send_Hidden_Neuron(name)
+            print(f"HIDDEN NEURON WITH NAME {name} sent to .nndf")
+            name += 1
+
+        for i in range(c.numMotorNeurons):
+            pyrosim.Send_Motor_Neuron(name = name, jointName = c.motorNames[name - c.numSensorNeurons - c.numHiddenNeurons])
             name += 1
         # pyrosim.Send_Motor_Neuron(name = 3, jointName = motorNames[0])
         # pyrosim.Send_Motor_Neuron(name = 4, jointName = motorNames[1])
 
-        num_neurons = len(c.sensorNames) + len(c.motorNames)
-        currentColumn = len(self.weights[0])
-        currentRow = len(self.weights)
-        for currentColumn in range(len(self.weights[0])):
-            for currentRow in range(len(self.weights)):
-                pyrosim.Send_Synapse(sourceNeuronName = currentRow, targetNeuronName = currentColumn+3, weight = self.weights[currentRow][currentColumn])
+        print(c.numSensorNeurons, c.numHiddenNeurons, c.numMotorNeurons)
 
+        # sensor to hidden
+        for currentRow in range(c.numSensorNeurons):
+            for currentColumn in range(c.numHiddenNeurons):
+                pyrosim.Send_Synapse(sourceNeuronName=currentRow,
+                                    targetNeuronName=currentColumn + c.numSensorNeurons,
+                                    weight=self.sensorToHiddenWeights[currentRow][currentColumn])
+        
+        # hidden to motor
+        for currentRow in range(c.numHiddenNeurons):
+            for currentColumn in range(c.numMotorNeurons):
+                pyrosim.Send_Synapse(sourceNeuronName=c.numSensorNeurons + currentRow,
+                                     targetNeuronName=currentColumn + c.numSensorNeurons + c.numHiddenNeurons,
+                                     weight=self.hiddenToMotorWeights[currentRow][currentColumn])
+        
         pyrosim.End()
         while not os.path.exists(f"brain{self.myID}.nndf"):
             print(f"Waiting on brain{self.myID}")
@@ -130,6 +142,16 @@ class SOLUTION:
 
 
     def Mutate(self):
-        row = random.randint(0, c.numSensorNeurons - 1)
-        col = random.randint(0, c.numMotorNeurons - 1)
-        self.weights[row, col] = (random.random() * 2) - 1
+        # row = random.randint(0, c.numSensorNeurons - 1)
+        # col = random.randint(0, c.numMotorNeurons - 1)
+        # self.weights[row, col] = (random.random() * 2) - 1
+
+        # randomly modify both one sensor -> hidden and one hidden -> motor synapse
+        SHRandomRow = random.randint(0,c.numSensorNeurons-1)
+        SHRandomColumn = random.randint(0,c.numHiddenNeurons-1)
+        
+        HMRandomRow = random.randint(0,c.numHiddenNeurons-1)
+        HMRandomColumn = random.randint(0,c.numMotorNeurons-1)
+
+        self.sensorToHiddenWeights[SHRandomRow, SHRandomColumn] = random.random() * 2 - 1
+        self.hiddenToMotorWeights[HMRandomRow, HMRandomColumn] = random.random() * 2 - 1
