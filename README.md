@@ -40,16 +40,25 @@ Deadline: 04/07/2026
 
 
 Proof of goals:
-- [] Record a video of the Spiderbot after evolving locomotion in a direction.
+- [x] Record a video of the Spiderbot after evolving locomotion in a direction.
 
 Hard-coded body is OK, because the robot will not be evolving its body. Hard-coded synapse connectivity also OK, will presume fully connected layers. (Only sensor and motor needed for this demonstration, hidden neurons will be for the following milestone)
 
-Currently, the bottleneck in Spiderbot evolution is that it cannot move its legs forward and backwards, how a spider would actually move.
+Currently, the bottleneck in Spiderbot evolution is that it cannot move its legs forward and backwards, how a spider would actually move. The joints will need to be modified to allow more degrees of freedom for future tests.
 
 ## Milestone 2:
 Deadline: 04/14/2026
 
 2nd milestone: I will improve the Spiderbot's brain to include hidden neurons, and show proof that hidden neurons are included in the neural net, and that the neuron values and synapse weights are updated across evolution steps.
+
+### Goals:
+- [ ] Implement hidden neurons into the neural net
+    - [ ] Dynamic sizing of hidden neurons
+    - [ ] Connectivity to Sensor neurons
+    - [ ] Connectivity to Motor neurons
+    - [ ] Implementation of at least one layer of hidden neurons
+    - [ ] Optional: Support for multiple layers of hidden neurons
+    - [ ] Optional: Support for 'memory' synapse connections, synapses that start and end on the same layer
 
 ## Milestone 3:
 Deadline: 04/21/2026
