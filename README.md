@@ -65,9 +65,9 @@ Deadline: 04/21/2026
 
 3rd milestone: I will create a randomly generated environment for the Spiderbot to inhabit. I will prove that the Spiderbot is capable of locomotion without it's body touching the ground in this environment and, if possible, navigation. Locomotion being defined as successful movement to the right in a straight-ish line, navigation being defined as choosing a path around obstacles that improves navigation time.
 
-- [ ] Random environment generation
-    - [ ] some randomly generated environmental terrain
-    - [ ] traversable by the spiderbot (spiderbot still needs some work to get moving well)
+- [x] Random environment generation
+    - [x] some randomly generated environmental terrain
+    - [x] traversable by the spiderbot (spiderbot still needs some work to get moving well)
     - [ ] Optional: spiderbot body and sensor  modification to allow for better traversal
 
 References: I found [this](https://www.youtube.com/watch?v=8V1ZrdBZvXg) helpful YouTube video, with associated [GitHub](https://github.com/liusida/learning_pybullet/blob/master/examples/mesh/floor.py) that helped to explain the problem. 
