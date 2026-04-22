@@ -65,7 +65,7 @@ class SOLUTION:
         filename = "body.urdf"
         pyrosim.Start_URDF(filename)
 
-        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1], size=[1, 2, 1])
+        pyrosim.Send_Cube(name="Torso", pos=[0, 0, 1.05], size=[1, 2, 1])
 
 
         spacing = 1
@@ -110,7 +110,7 @@ class SOLUTION:
 
         for i in range(c.numHiddenNeurons):
             pyrosim.Send_Hidden_Neuron(name)
-            print(f"HIDDEN NEURON WITH NAME {name} sent to .nndf")
+            # print(f"HIDDEN NEURON WITH NAME {name} sent to .nndf")
             name += 1
 
         for i in range(c.numMotorNeurons):
@@ -119,7 +119,7 @@ class SOLUTION:
         # pyrosim.Send_Motor_Neuron(name = 3, jointName = motorNames[0])
         # pyrosim.Send_Motor_Neuron(name = 4, jointName = motorNames[1])
 
-        print(c.numSensorNeurons, c.numHiddenNeurons, c.numMotorNeurons)
+        # print(c.numSensorNeurons, c.numHiddenNeurons, c.numMotorNeurons)
 
         # sensor to hidden
         for currentRow in range(c.numSensorNeurons):

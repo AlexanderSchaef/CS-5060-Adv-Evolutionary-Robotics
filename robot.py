@@ -21,7 +21,7 @@ class ROBOT:
         self.Prepare_To_Sense()
         self.Prepare_To_Act()
 
-        # os.system(f"del brain{simulationID}.nndf")
+        os.system(f"del brain{simulationID}.nndf")
 
 
     def Prepare_To_Sense(self):

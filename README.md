@@ -70,6 +70,8 @@ Deadline: 04/21/2026
     - [ ] traversable by the spiderbot (spiderbot still needs some work to get moving well)
     - [ ] Optional: spiderbot body and sensor  modification to allow for better traversal
 
+References: I found [this](https://www.youtube.com/watch?v=8V1ZrdBZvXg) helpful YouTube video, with associated [GitHub](https://github.com/liusida/learning_pybullet/blob/master/examples/mesh/floor.py) that helped to explain the problem. 
+
 
 ## Milestone 4:
 Deadline: 04/28/2026
