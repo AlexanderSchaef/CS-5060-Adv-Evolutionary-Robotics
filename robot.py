@@ -1,12 +1,12 @@
 import numpy as np
 import pybullet as p
 import os
+from math import dist
 
 
 import pyrosim.pyrosim as pyrosim
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import constants as c
-
 from sensor import SENSOR
 from motor import MOTOR
 
@@ -61,15 +61,34 @@ class ROBOT:
     
 
     def Get_Fitness(self, solutionID):
+        # GET FITNESS MODIFIED
+        # From moving to the right, to moving towards the cube
+
+        print()
+
         stateOfLinkZero = p.getLinkState(self.robot,0)
         # print(stateOfLinkZero)
         positionOfLinkZero = stateOfLinkZero[0]
         # print(positionOfLinkZero)
         xCoordinateOfLinkZero = positionOfLinkZero[0] 
-        # print(xCoordinateOfLinkZero)
+        yCoordinateOfLinkZero = positionOfLinkZero[1] 
+        zCoordinateOfLinkZero = positionOfLinkZero[2] 
+
+        print(stateOfLinkZero)
+        print(xCoordinateOfLinkZero, yCoordinateOfLinkZero, zCoordinateOfLinkZero)
+
+        # Fitness metric for moving in the x direction
+        # with open(f"tmp{str(solutionID)}.txt", "w") as file:
+        #     file.write(str(xCoordinateOfLinkZero))
+        # os.system(f"rename tmp{str(solutionID)}.txt fitness{solutionID}.txt")
+
+        fitness = dist([xCoordinateOfLinkZero, yCoordinateOfLinkZero, zCoordinateOfLinkZero], 
+                       [c.goal_x, c.goal_y, c.goal_z])
+        
         with open(f"tmp{str(solutionID)}.txt", "w") as file:
-            file.write(str(xCoordinateOfLinkZero))
+            file.write(str(fitness))
         os.system(f"rename tmp{str(solutionID)}.txt fitness{solutionID}.txt")
+
 
 
     def Save_Values(self):

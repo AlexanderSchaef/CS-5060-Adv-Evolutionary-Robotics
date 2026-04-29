@@ -45,7 +45,9 @@ class SOLUTION:
         filename = "world.sdf"
         pyrosim.Start_SDF(filename)
 
-        pyrosim.Send_Cube(name="Box", pos=[2,2,0.5], size=[1,1,1])
+        # THIS BOX IS THE GOAL POST OF THE SPIDERBOT
+
+        pyrosim.Send_Cube(name="Box", pos=[c.goal_x, c.goal_y, c.goal_z], size=[1,1,1])
 
         pyrosim.End()
         while not os.path.exists("world.sdf"):

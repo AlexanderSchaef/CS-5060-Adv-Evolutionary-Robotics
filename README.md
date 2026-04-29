@@ -78,7 +78,17 @@ Deadline: 04/28/2026
 
 4th milestone: I will create a `goal post`, either a random coordinate or a cube in the environment, that the Spiderbot will attempt to move towards rather than a hard-coded direction. I will show proof that the Spiderbot moves towards this `goal post` regardless of where it is positioned. This will be demonstrated either through repeated trials or, if possible, through moving the `goal post` and verifying that the Spiderbot changes to move towards it's new position.
 
-- [ ] Random goal
-    - [ ] Minimum implementation: goal coordinates are fed in as sensor input and given to the robot
-    - [ ] If there is time, a goal object
+- [x] Random goal
+    - [x] Minimum implementation: goal coordinates are fed in as sensor input and given to the robot
+    - [x] If there is time, a goal object
     - [ ] If there is time, a goal object that resets to a new position in the world after the robot approaches it
+
+Current implementation as of completion of milestone 4:
+A rather limited Spiderbot body, with hidden neurons in the brain. It has body sensors and sensors for the position of a static 'goal post' cube evolves to move towards that cube in a dynamic environment. 
+
+
+## To be worked on by the Final submission deadline.
+- [ ] A simple test: I suspect the quadbot can move signficantly better, and the spiderbot body is weighing the system down.
+        If this is the case, I will run large generation simulations with the quadbot instead
+- [ ] A "fitness over time metric" for the presentation
+- [ ] A post-evolution video of whichever bot performing the final task, moving towards a random cube.
